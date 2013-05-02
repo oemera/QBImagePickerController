@@ -1,5 +1,5 @@
 # QBImagePickerController
-QBImagePickerController is a clone of UIImagePickerController with multiple selection feature.
+This Repository is fork of the original [QBImagePickerController](https://github.com/questbeat/QBImagePickerController) project. It adds the possibility to set already selcted Assets to QBImagePickerController.
 
 
 ## ScreenShot

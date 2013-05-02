@@ -17,7 +17,6 @@
 @interface QBAssetCollectionViewController ()
 
 @property (nonatomic, retain) NSMutableArray *assets;
-@property (nonatomic, retain) NSMutableOrderedSet *selectedAssets;
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
@@ -208,6 +207,7 @@
 
 - (void)done
 {
+    // hello
     [self.delegate assetCollectionViewController:self didFinishPickingAssets:self.selectedAssets.array];
 }
 
@@ -345,7 +345,17 @@
             for(NSUInteger i = 0; i < numberOfAssetsToSet; i++) {
                 ALAsset *asset = [self.assets objectAtIndex:(offset + i)];
                 
-                if([self.selectedAssets containsObject:asset]) {
+                BOOL isAssetSelected = NO; //[self.selectedAssets containsObject:asset];
+                
+                for (int i = 0; i < self.selectedAssets.count; i++) {
+                    ALAsset *selectedAsset = [self.selectedAssets objectAtIndex:i];
+                    if ([selectedAsset.defaultRepresentation.url isEqual:asset.defaultRepresentation.url]) {
+                        isAssetSelected = YES;
+                        break;
+                    }
+                }
+                
+                if(isAssetSelected) {
                     [(QBImagePickerAssetCell *)cell selectAssetAtIndex:i];
                 } else {
                     [(QBImagePickerAssetCell *)cell deselectAssetAtIndex:i];

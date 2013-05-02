@@ -291,6 +291,7 @@
     assetCollectionViewController.limitsMaximumNumberOfSelection = self.limitsMaximumNumberOfSelection;
     assetCollectionViewController.minimumNumberOfSelection = self.minimumNumberOfSelection;
     assetCollectionViewController.maximumNumberOfSelection = self.maximumNumberOfSelection;
+    assetCollectionViewController.selectedAssets = [NSMutableOrderedSet orderedSetWithArray:self.selectedAssets];
     
     [self.navigationController pushViewController:assetCollectionViewController animated:YES];
     
@@ -308,6 +309,7 @@
     
     if([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingMediaWithInfo:)]) {
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:[self mediaInfoFromAsset:asset]];
+        self.selectedAssets = [NSArray arrayWithObject:asset];
     }
 }
 
@@ -325,6 +327,7 @@
         }
         
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
+        self.selectedAssets = assets;
     }
 }
 

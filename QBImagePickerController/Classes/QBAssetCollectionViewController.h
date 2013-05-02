@@ -37,4 +37,6 @@
 @property (nonatomic, assign) NSUInteger minimumNumberOfSelection;
 @property (nonatomic, assign) NSUInteger maximumNumberOfSelection;
 
+@property (nonatomic, retain) NSMutableOrderedSet *selectedAssets;
+
 @end
