@@ -21,6 +21,7 @@ typedef enum {
 } QBImagePickerFilterType;
 
 @class QBImagePickerController;
+@class AXMutableOrderedDictionary;
 
 @protocol QBImagePickerControllerDelegate <NSObject>
 
@@ -49,6 +50,6 @@ typedef enum {
 @property (nonatomic, assign) NSUInteger minimumNumberOfSelection;
 @property (nonatomic, assign) NSUInteger maximumNumberOfSelection;
 
-@property (nonatomic, retain) NSMutableDictionary *selectedAssets;
+@property (nonatomic, retain) AXMutableOrderedDictionary *selectedAssets;
 
 @end

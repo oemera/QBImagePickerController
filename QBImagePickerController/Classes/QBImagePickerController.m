@@ -9,6 +9,7 @@
  */
 
 #import "QBImagePickerController.h"
+#import "AXMutableOrderedDictionary.h"
 
 // Views
 #import "QBImagePickerGroupCell.h"
@@ -313,22 +314,22 @@
     }
 }
 
-- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(NSDictionary *)assets
+- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(AXMutableOrderedDictionary *)assets
 {
     if([self.delegate respondsToSelector:@selector(imagePickerControllerWillFinishPickingMedia:)]) {
         [self.delegate imagePickerControllerWillFinishPickingMedia:self];
     }
     
     if([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingMediaWithInfo:)]) {
-        NSMutableArray *info = [NSMutableArray array];
+        /*NSMutableArray *info = [NSMutableArray array];
         NSEnumerator *assetKeys = [assets keyEnumerator];
         NSString *assetPath = nil;
         while (assetPath = [assetKeys nextObject]) {
             ALAsset *asset = [assets objectForKey:assetPath];
             [info addObject:[self mediaInfoFromAsset:asset]];
-        }
+        }*/
         
-        [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
+        [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:[assets arrayRepresentation]];
         self.selectedAssets = assetCollectionViewController.selectedAssets;
     }
 }

@@ -13,6 +13,7 @@
 // Views
 #import "QBImagePickerAssetCell.h"
 #import "QBImagePickerFooterView.h"
+#import "AXMutableOrderedDictionary.h"
 
 @interface QBAssetCollectionViewController ()
 
@@ -38,7 +39,7 @@
     if(self) {
         /* Initialization */
         self.assets = [NSMutableArray array];
-        self.selectedAssets = [NSMutableDictionary dictionary];
+        self.selectedAssets = [AXMutableOrderedDictionary dictionary];
         
         self.imageSize = CGSizeMake(75, 75);
         
@@ -346,9 +347,9 @@
                 NSString *assetPath = [asset.defaultRepresentation.url absoluteString];
                 
                 ALAsset *selectedAsset = [self.selectedAssets objectForKey:assetPath];
-                
                 if(selectedAsset) {
                     [(QBImagePickerAssetCell *)cell selectAssetAtIndex:i];
+                    [self.selectedAssets addObject:asset withKey:assetPath];
                 } else {
                     [(QBImagePickerAssetCell *)cell deselectAssetAtIndex:i];
                 }
@@ -398,9 +399,10 @@
             [self.selectedAssets removeAllObjects];
         } else {
             // Select all assets
+            self.selectedAssets = [AXMutableOrderedDictionary dictionary];
             for (ALAsset *asset in self.assets) {
-                NSString *assetPath = asset.defaultRepresentation.url.path;
-                [self.selectedAssets setObject:asset forKey:assetPath];
+                NSString *assetPath = [asset.defaultRepresentation.url absoluteString];
+                [self.selectedAssets addObject:asset withKey:assetPath];
             }
         }
         
@@ -447,7 +449,7 @@
     if(self.allowsMultipleSelection) {
         NSString *assetPath = [asset.defaultRepresentation.url absoluteString];
         if(selected) {
-            [self.selectedAssets setObject:asset forKey:assetPath];
+            [self.selectedAssets addObject:asset withKey:assetPath];
         } else {
             [self.selectedAssets removeObjectForKey:assetPath];
         }

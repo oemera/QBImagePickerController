@@ -9,12 +9,13 @@
  */
 
 @class QBAssetCollectionViewController;
+@class AXMutableOrderedDictionary;
 
 @protocol QBAssetCollectionViewControllerDelegate <NSObject>
 
 @required
 - (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAsset:(ALAsset *)asset;
-- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(NSDictionary *)assets;
+- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(AXMutableOrderedDictionary *)assets;
 - (void)assetCollectionViewControllerDidCancel:(QBAssetCollectionViewController *)assetCollectionViewController;
 - (NSString *)descriptionForSelectingAllAssets:(QBAssetCollectionViewController *)assetCollectionViewController;
 - (NSString *)descriptionForDeselectingAllAssets:(QBAssetCollectionViewController *)assetCollectionViewController;

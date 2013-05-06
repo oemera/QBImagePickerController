@@ -19,6 +19,8 @@
 // Controllers
 #import "QBImagePickerController.h"
 
+@class AXMutableOrderedDictionary;
+
 @interface QBAssetCollectionViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QBImagePickerAssetCellDelegate>
 
 @property (nonatomic, assign) id<QBAssetCollectionViewControllerDelegate> delegate;
@@ -37,6 +39,6 @@
 @property (nonatomic, assign) NSUInteger minimumNumberOfSelection;
 @property (nonatomic, assign) NSUInteger maximumNumberOfSelection;
 
-@property (nonatomic, retain) NSMutableDictionary *selectedAssets;
+@property (nonatomic, retain) AXMutableOrderedDictionary *selectedAssets;
 
 @end
