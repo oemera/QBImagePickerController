@@ -38,7 +38,7 @@
     if(self) {
         /* Initialization */
         self.assets = [NSMutableArray array];
-        self.selectedAssets = [NSMutableOrderedSet orderedSet];
+        self.selectedAssets = [NSMutableDictionary dictionary];
         
         self.imageSize = CGSizeMake(75, 75);
         
@@ -207,8 +207,7 @@
 
 - (void)done
 {
-    // hello
-    [self.delegate assetCollectionViewController:self didFinishPickingAssets:self.selectedAssets.array];
+    [self.delegate assetCollectionViewController:self didFinishPickingAssets:self.selectedAssets];
 }
 
 - (void)cancel
@@ -344,18 +343,11 @@
             // Set selection states
             for(NSUInteger i = 0; i < numberOfAssetsToSet; i++) {
                 ALAsset *asset = [self.assets objectAtIndex:(offset + i)];
+                NSString *assetPath = [asset.defaultRepresentation.url absoluteString];
                 
-                BOOL isAssetSelected = NO; //[self.selectedAssets containsObject:asset];
+                ALAsset *selectedAsset = [self.selectedAssets objectForKey:assetPath];
                 
-                for (int i = 0; i < self.selectedAssets.count; i++) {
-                    ALAsset *selectedAsset = [self.selectedAssets objectAtIndex:i];
-                    if ([selectedAsset.defaultRepresentation.url isEqual:asset.defaultRepresentation.url]) {
-                        isAssetSelected = YES;
-                        break;
-                    }
-                }
-                
-                if(isAssetSelected) {
+                if(selectedAsset) {
                     [(QBImagePickerAssetCell *)cell selectAssetAtIndex:i];
                 } else {
                     [(QBImagePickerAssetCell *)cell deselectAssetAtIndex:i];
@@ -406,7 +398,10 @@
             [self.selectedAssets removeAllObjects];
         } else {
             // Select all assets
-            [self.selectedAssets addObjectsFromArray:self.assets];
+            for (ALAsset *asset in self.assets) {
+                NSString *assetPath = asset.defaultRepresentation.url.path;
+                [self.selectedAssets setObject:asset forKey:assetPath];
+            }
         }
         
         // Set done button state
@@ -450,10 +445,11 @@
     ALAsset *asset = [self.assets objectAtIndex:assetIndex];
     
     if(self.allowsMultipleSelection) {
+        NSString *assetPath = [asset.defaultRepresentation.url absoluteString];
         if(selected) {
-            [self.selectedAssets addObject:asset];
+            [self.selectedAssets setObject:asset forKey:assetPath];
         } else {
-            [self.selectedAssets removeObject:asset];
+            [self.selectedAssets removeObjectForKey:assetPath];
         }
         
         // Set done button state

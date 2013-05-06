@@ -49,6 +49,6 @@ typedef enum {
 @property (nonatomic, assign) NSUInteger minimumNumberOfSelection;
 @property (nonatomic, assign) NSUInteger maximumNumberOfSelection;
 
-@property (nonatomic, retain) NSArray *selectedAssets;
+@property (nonatomic, retain) NSMutableDictionary *selectedAssets;
 
 @end

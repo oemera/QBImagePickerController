@@ -291,7 +291,7 @@
     assetCollectionViewController.limitsMaximumNumberOfSelection = self.limitsMaximumNumberOfSelection;
     assetCollectionViewController.minimumNumberOfSelection = self.minimumNumberOfSelection;
     assetCollectionViewController.maximumNumberOfSelection = self.maximumNumberOfSelection;
-    assetCollectionViewController.selectedAssets = [NSMutableOrderedSet orderedSetWithArray:self.selectedAssets];
+    assetCollectionViewController.selectedAssets = self.selectedAssets;
     
     [self.navigationController pushViewController:assetCollectionViewController animated:YES];
     
@@ -309,11 +309,11 @@
     
     if([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingMediaWithInfo:)]) {
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:[self mediaInfoFromAsset:asset]];
-        self.selectedAssets = [NSArray arrayWithObject:asset];
+        self.selectedAssets = assetCollectionViewController.selectedAssets;
     }
 }
 
-- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(NSArray *)assets
+- (void)assetCollectionViewController:(QBAssetCollectionViewController *)assetCollectionViewController didFinishPickingAssets:(NSDictionary *)assets
 {
     if([self.delegate respondsToSelector:@selector(imagePickerControllerWillFinishPickingMedia:)]) {
         [self.delegate imagePickerControllerWillFinishPickingMedia:self];
@@ -321,13 +321,15 @@
     
     if([self.delegate respondsToSelector:@selector(imagePickerController:didFinishPickingMediaWithInfo:)]) {
         NSMutableArray *info = [NSMutableArray array];
-        
-        for(ALAsset *asset in assets) {
+        NSEnumerator *assetKeys = [assets keyEnumerator];
+        NSString *assetPath = nil;
+        while (assetPath = [assetKeys nextObject]) {
+            ALAsset *asset = [assets objectForKey:assetPath];
             [info addObject:[self mediaInfoFromAsset:asset]];
         }
         
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
-        self.selectedAssets = assets;
+        self.selectedAssets = assetCollectionViewController.selectedAssets;
     }
 }
 
