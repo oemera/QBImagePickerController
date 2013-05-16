@@ -93,6 +93,7 @@
     
     // Flash scroll indicators
     [self.tableView flashScrollIndicators];
+    [self updateDoneButton];
 }
 
 - (void)setShowsCancelButton:(BOOL)showsCancelButton
